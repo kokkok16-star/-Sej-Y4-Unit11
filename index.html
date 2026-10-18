@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>单元十一《著名海军统帅汉都亚》答题挑战</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --text: #1f2937;
+      --accent: #d97706;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: var(--text);
+    }
+
+    .container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 850px;
+      border-radius: 20px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+      padding: 35px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Header & Teacher Button */
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+      padding-top: 10px;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
+    /* 显眼的“教师专区”按钮 */
+    .teacher-btn-top {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #eef2ff;
+      color: var(--primary);
+      border: 1.5px solid #c7d2fe;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .teacher-btn-top:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    /* Screens */
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Forms & Inputs */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #374151;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .btn {
+      width: 100%;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background-color: #6b7280;
+      box-shadow: none;
+    }
+    .btn-secondary:hover {
+      background-color: #4b5563;
+    }
+
+    .error-msg {
+      color: var(--error);
+      font-size: 0.85rem;
+      margin-top: 6px;
+      display: none;
+      font-weight: 600;
+    }
+
+    /* Quiz Area */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background: #f3f4f6;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      color: #4b5563;
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      color: #111827;
+    }
+
+    .options-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      padding: 14px 18px;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #374151;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .option-btn:hover {
+      border-color: var(--primary);
+      background-color: #eef2ff;
+      color: var(--primary);
+    }
+
+    .option-btn.correct {
+      background-color: #d1fae5 !important;
+      border-color: var(--success) !important;
+      color: #065f46 !important;
+      font-weight: 700;
+    }
+
+    .option-btn.wrong {
+      background-color: #fee2e2 !important;
+      border-color: var(--error) !important;
+      color: #991b1b !important;
+      font-weight: 700;
+    }
+
+    .explanation-box {
+      margin-top: 20px;
+      padding: 16px;
+      background-color: #eff6ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .explanation-title {
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .explanation-content {
+      font-size: 0.92rem;
+      color: #1e3a8a;
+      line-height: 1.5;
+    }
+
+    .next-btn-container {
+      margin-top: 22px;
+      display: none;
+    }
+
+    /* Leaderboard & Layout */
+    .quiz-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+
+    @media (min-width: 768px) {
+      .quiz-layout.with-sidebar {
+        grid-template-columns: 1.4fr 1fr;
+      }
+    }
+
+    .leaderboard-card {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .leaderboard-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .leaderboard-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border: 1px solid #f1f5f9;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    .rank {
+      font-weight: 800;
+      color: var(--primary);
+      width: 22px;
+      display: inline-block;
+    }
+
+    /* Admin Styles */
+    .admin-modal {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 0.88rem;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .admin-table th, .admin-table td {
+      border: 1px solid #e5e7eb;
+      padding: 12px 10px;
+      text-align: left;
+    }
+
+    .admin-table th {
+      background-color: #f3f4f6;
+      font-weight: 700;
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <!-- 显眼的“教师专区”按钮 -->
+    <button class="teacher-btn-top" id="teacher-zone-btn">
+      🔒 教师专区
+    </button>
+
+    <h1>单元十一《著名海军统帅汉都亚》</h1>
+    <div class="subtitle">历史知识互动挑战系统</div>
+  </header>
+
+  <!-- 1. 学生登录与排行榜界面 -->
+  <div id="screen-login" class="screen active">
+    <div class="quiz-layout with-sidebar">
+      <div>
+        <div class="form-group">
+          <label for="student-name">学生姓名 (中文 / 英文)：</label>
+          <input type="text" id="student-name" placeholder="例如: 张小明 / Tan Ah Kow">
+          <div id="name-error" class="error-msg">⚠️ 请输入有效姓名</div>
+        </div>
+        <div class="form-group">
+          <label for="student-email">教育部邮箱 (Email)：</label>
+          <input type="email" id="student-email" placeholder="例如: m-1234567@moe-dl.edu.my">
+          <div id="email-error" class="error-msg">⚠️ 邮箱必须以 @moe-dl.edu.my 结尾！</div>
+        </div>
+        <button class="btn" id="start-btn">开始答题 🚀</button>
+      </div>
+
+      <!-- 实时排行榜（始终显示在主界面） -->
+      <div class="leaderboard-card">
+        <div class="leaderboard-title">🏆 实时英雄榜</div>
+        <div id="realtime-leaderboard">数据加载中...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 答题界面 -->
+  <div id="screen-quiz" class="screen">
+    <div class="quiz-header">
+      <span>题目 <span id="current-index">1</span> / 10</span>
+      <span>得分: <span id="current-score" style="color:var(--primary);">0</span></span>
+    </div>
+    
+    <div class="question-title" id="question-text">加载中...</div>
+    <div class="options-grid" id="options-container"></div>
+
+    <!-- 错题解答解析 -->
+    <div class="explanation-box" id="explanation-box">
+      <div class="explanation-title">💡 解答与解析：</div>
+      <div class="explanation-content" id="explanation-text"></div>
+    </div>
+
+    <div class="next-btn-container" id="next-btn-container">
+      <button class="btn" id="next-btn">下一题 ➔</button>
+    </div>
+  </div>
+
+  <!-- 3. 结算界面 -->
+  <div id="screen-result" class="screen">
+    <div style="text-align: center; padding: 10px 0;">
+      <h2 style="font-size: 1.8rem; color: var(--primary);">🎉 挑战完成！</h2>
+      <p style="font-size: 1.1rem; margin: 15px 0;">你的最终得分：<b id="final-score" style="color:var(--primary); font-size:2.2rem;">0</b> / 100</p>
+      <p id="result-comment" style="color: #6b7280; margin-bottom: 25px; font-weight: 600;"></p>
+      
+      <div class="leaderboard-card" style="max-height: none; margin-bottom: 25px;">
+        <div class="leaderboard-title">🏆 最新英雄榜</div>
+        <div id="result-leaderboard">加载中...</div>
+      </div>
+
+      <button class="btn" onclick="location.reload()">再测一次 🔄</button>
+    </div>
+  </div>
+
+  <!-- 4. 教师专区登录密码验证界面 -->
+  <div id="screen-admin-login" class="screen">
+    <div class="admin-modal">
+      <h2 style="color: var(--primary); margin-bottom: 10px; font-size: 1.4rem; text-align: center;">🔐 教师专区身份验证</h2>
+      <p style="color: #6b7280; font-size: 0.9rem; text-align: center; margin-bottom: 20px;">请输入教师后台专属管理密码</p>
+      
+      <div class="form-group">
+        <label for="admin-pass-input">管理密码：</label>
+        <input type="password" id="admin-pass-input" placeholder="输入密码" autocomplete="off">
+        <div id="admin-pass-error" class="error-msg">⚠️ 密码错误，请输入正确的教师密码！</div>
+      </div>
+      
+      <button class="btn" id="admin-login-btn">登录后台</button>
+      <button class="btn btn-secondary" id="admin-cancel-btn" style="margin-top: 10px;">取消返回</button>
+    </div>
+  </div>
+
+  <!-- 5. 教师后台数据记录展示界面 -->
+  <div id="screen-admin-dashboard" class="screen">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <h2 style="color: var(--primary); font-size: 1.5rem;">📊 教师后台 - 学生答题记录</h2>
+        <p style="color: #6b7280; font-size: 0.85rem;">实时查看所有学生的答题成绩与用时</p>
+      </div>
+      <button class="btn btn-secondary" style="width: auto; padding: 10px 18px;" id="admin-logout-btn">退出教师后台</button>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>学生姓名</th>
+            <th>教育部 Email</th>
+            <th>得分</th>
+            <th>用时 (秒)</th>
+            <th>提交时间</th>
+          </tr>
+        </thead>
+        <tbody id="admin-data-body">
+          <tr><td colspan="5" style="text-align: center; color: #9ca3af; padding: 20px;">数据加载中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Firebase Web SDK (v10.8.0 Modular) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // 1. Firebase 配置
+  const firebaseConfig = {
+    apiKey: "AIzaSyAYldsXuHFeRocwn3qIWYxIcf7uzc7f_ME",
+    authDomain: "sej-y4-unit11.firebaseapp.com",
+    projectId: "sej-y4-unit11",
+    storageBucket: "sej-y4-unit11.firebasestorage.app",
+    messagingSenderId: "461087455990",
+    appId: "1:461087455990:web:597f84b988223b8ec40ad7",
+    measurementId: "G-5D9WGKWD4R"
+  };
+
+  // 初始化 Firebase & Firestore
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 2. 音效生成系统 (Web Audio API，无需外部音源文件)
+  const AudioFX = {
+    ctx: null,
+    init() {
+      if (!this.ctx) {
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    },
+    playCorrect() {
+      this.init();
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5
+      osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.08); // E5
+      osc.frequency.setValueAtTime(783.99, this.ctx.currentTime + 0.16); // G5
+      
+      gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.45);
+      
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.45);
+    },
+    playWrong() {
+      this.init();
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, this.ctx.currentTime); // A3
+      osc.frequency.setValueAtTime(140, this.ctx.currentTime + 0.12); // C3
+      
+      gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.35);
+      
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.35);
+    }
+  };
+
+  // 3. 题目与完整解析
+  const quizData = [
+    {
+      q: "1. 汉都亚出生于哪里？其父母的名字分别是什么？",
+      options: [
+        "A. 甘榜双溪杜容；汉马末与当美都华蒂",
+        "B. 丹绒布蒂里；天猛公达因与敦蒂惹",
+        "C. 巴生；敦霹雳与敦古杜",
+        "D. 尼亚洞；阿利亚布特拉与当美都华蒂"
+      ],
+      correct: 0,
+      exp: "汉都亚来自甘榜双溪杜容（Kampung Sungai Duyung），父亲是汉马末（Hang Mahmud），母亲是当美都华蒂（Dang Merdu Wati）。"
+    },
+    {
+      q: "2. 汉都亚有四位从小一起长大的挚友，下列哪一位不属于这四位挚友？",
+      options: [
+        "A. 汉惹伯（Hang Jebat）",
+        "B. 汉卡斯杜里（Hang Kasturi）",
+        "C. 达明沙里（Taming Sari）",
+        "D. 汉叻基（Hang Lekir）"
+      ],
+      correct: 2,
+      exp: "达明沙里（Taming Sari）是爪哇勇士；汉都亚的四位挚友为汉惹伯、汉卡斯杜里、汉叻基和汉叻古。"
+    },
+    {
+      q: "3. 汉都亚是向哪一位师傅拜师学习马来武术的？",
+      options: [
+        "A. 敦霹雳（Tun Perak）",
+        "B. 阿利亚布特拉（Aria Putera）",
+        "C. 巴迪加查马达（Patih Gajah Mada）",
+        "D. 苏丹满速沙（Sultan Mansur Shah）"
+      ],
+      correct: 1,
+      exp: "汉都亚是向阿利亚布特拉（Aria Putera）拜师学习马来武术的。"
+    },
+    {
+      q: "4. 汉都亚与爪哇勇士达明沙里决斗胜利后，智取夺得了什么物品？",
+      options: [
+        "A. 金山聘礼",
+        "B. 马来短剑（Keris）",
+        "C. 12 种语言秘籍",
+        "D. 皇帝赐予的权杖"
+      ],
+      correct: 1,
+      exp: "汉都亚在与爪哇勇士达明沙里的决斗中智取对手，成功夺得马来短剑。"
+    },
+    {
+      q: "5. 汉都亚最初是因为做了什么事展现出勇敢与身手敏捷，从而获得宰相敦霹雳推荐担任海军统帅？",
+      options: [
+        "A. 在海路上成功清剿了恶劣海盗",
+        "B. 在骚乱中救出了宰相敦霹雳",
+        "C. 出使中国并成功见到了中国皇帝",
+        "D. 击退了满者伯夷派来的雇佣兵"
+      ],
+      correct: 1,
+      exp: "汉都亚曾经在骚乱中救出宰相敦霹雳，敦霹雳赏识其能力，因而推荐他担任海军统帅。"
+    },
+    {
+      q: "6. 下列哪项不属于汉都亚身为马六甲海军统帅（Laksamana）的主要职责？",
+      options: [
+        "A. 担任苏丹的贴身侍卫",
+        "B. 保障海域安全与清剿海盗",
+        "C. 担任马六甲的最高宰相（Bendahara）",
+        "D. 执行苏丹的谕旨（如远赴金山下聘礼）"
+      ],
+      correct: 2,
+      exp: "马六甲的宰相（Bendahara）是敦霹雳等大臣担任的职务；海军统帅（Laksamana）的职责是保卫海域、担任苏丹侍卫、出使外国及执行谕旨。"
+    },
+    {
+      q: "7. 汉都亚率领使者团出使中国时，运用了什么巧妙方法看清了中国皇帝的容貌？",
+      options: [
+        "A. 借口呈献马六甲短剑时抬头观望",
+        "B. 声称吃蕹菜不能切断，夹起整条仰头一口吃下",
+        "C. 假扮成宫廷卫兵近距离观察",
+        "D. 请求皇帝亲自接见并赐酒"
+      ],
+      correct: 1,
+      exp: "汉都亚出使中国时，声称吃蕹菜不能切断，夹起整条仰头吃下，借机看清了中国皇帝的容貌。"
+    },
+    {
+      q: "8. 汉都亚遭到诽谤被下令处死时，宰相敦霹雳是如何处理的？后来又发生了什么事？",
+      options: [
+        "A. 敦霹雳将他私下匿藏起来；后来汉惹伯叛乱，苏丹召回汉都亚平息叛乱",
+        "B. 敦霹雳直接执行了处决命令；后来由汉惹伯接任海军统帅",
+        "C. 敦霹雳带他远赴土耳其避难；后来苏丹亲自将他接回马六甲",
+        "D. 敦霹雳让自己向苏丹当面申冤；汉都亚当场打败了诽谤他的奸臣"
+      ],
+      correct: 0,
+      exp: "敦霹雳将汉都亚私下匿藏起来；后来汉惹伯因误以为汉都亚已死而叛乱，苏丹深感后悔，召回汉都亚平乱并恢复马六甲安宁。"
+    },
+    {
+      q: "9. 汉都亚精通多少种语言？这项技能对自己执行马六甲公职有何重要作用？",
+      options: [
+        "A. 5 种；便于他在马六甲市内与本地商人交易",
+        "B. 8 种；便于他指挥马六甲军队作战",
+        "C. 12 种；便于他出使中国、印度和土耳其等国，维护马六甲国誉",
+        "D. 15 种；便于他翻译经典的宗教文献"
+      ],
+      correct: 2,
+      exp: "汉都亚精通 12 种语言，便于出使中国、印度和土耳其等国家，维护马六甲的国誉与外交地位。"
+    },
+    {
+      q: "10. 汉都亚运用才智说服敦蒂惹（Tun Teja）嫁给马六甲苏丹，这展现了他的哪一种个人素质？",
+      options: [
+        "A. 精通马来武术",
+        "B. 睿智与才智",
+        "C. 诚实守信",
+        "D. 忠于朋友"
+      ],
+      correct: 1,
+      exp: "汉都亚运用才智说服敦蒂惹嫁给苏丹，展现了他睿智的个人素质。"
+    }
+  ];
+
+  // State Variables
+  let currentQuestion = 0;
+  let score = 0;
+  let studentInfo = { name: "", email: "" };
+  let startTime = null;
+  let answered = false;
+
+  // DOM Elements
+  const screens = {
+    login: document.getElementById('screen-login'),
+    quiz: document.getElementById('screen-quiz'),
+    result: document.getElementById('screen-result'),
+    adminLogin: document.getElementById('screen-admin-login'),
+    adminDashboard: document.getElementById('screen-admin-dashboard')
+  };
+
+  function switchScreen(screenKey) {
+    Object.values(screens).forEach(s => s.classList.remove('active'));
+    screens[screenKey].classList.add('active');
+  }
+
+  // 4. 实时排行榜 (单字段查询，避免依赖复合索引)
+  function setupRealtimeLeaderboard() {
+    // 仅按 score 降序查询，避免触发复合索引报错
+    const q = query(collection(db, "quiz_results"), orderBy("score", "desc"), limit(20));
+    onSnapshot(q, (snapshot) => {
+      const items = [];
+      snapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+
+      // 在前端内存中排序：分数相同按用时升序
+      items.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return (a.timeTaken || 0) - (b.timeTaken || 0);
+      });
+
+      // 取前5名
+      const top5 = items.slice(0, 5);
+
+      let html = "";
+      let rank = 1;
+      top5.forEach((data) => {
+        html += `
+          <div class="leaderboard-item">
+            <div><span class="rank">${rank}.</span> <b>${escapeHtml(data.name)}</b></div>
+            <div><span style="color:var(--primary); font-weight:bold;">${data.score}分</span> <small style="color:#9ca3af;">(${data.timeTaken || 0}s)</small></div>
+          </div>
+        `;
+        rank++;
+      });
+
+      if(html === "") html = "<div style='color:#9ca3af; text-align:center; padding:15px;'>暂无数据，快来第一个挑战！</div>";
+      document.getElementById('realtime-leaderboard').innerHTML = html;
+      document.getElementById('result-leaderboard').innerHTML = html;
+    }, (error) => {
+      console.error("排行榜监听异常:", error);
+    });
+  }
+
+  function escapeHtml(str) {
+    if(!str) return "";
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  // 5. 开始答题与验证
+  document.getElementById('start-btn').addEventListener('click', () => {
+    const nameInput = document.getElementById('student-name').value.trim();
+    const emailInput = document.getElementById('student-email').value.trim();
+    const nameErr = document.getElementById('name-error');
+    const emailErr = document.getElementById('email-error');
+
+    let valid = true;
+    if (!nameInput) {
+      nameErr.style.display = 'block';
+      valid = false;
+    } else {
+      nameErr.style.display = 'none';
+    }
+
+    // 强制验证以 @moe-dl.edu.my 结尾
+    if (!emailInput.toLowerCase().endsWith('@moe-dl.edu.my')) {
+      emailErr.style.display = 'block';
+      valid = false;
+    } else {
+      emailErr.style.display = 'none';
+    }
+
+    if (valid) {
+      studentInfo.name = nameInput;
+      studentInfo.email = emailInput;
+      startTime = new Date();
+      switchScreen('quiz');
+      loadQuestion();
+    }
+  });
+
+  // 6. 渲染题目
+  function loadQuestion() {
+    answered = false;
+    const data = quizData[currentQuestion];
+    document.getElementById('current-index').textContent = currentQuestion + 1;
+    document.getElementById('question-text').textContent = data.q;
+    document.getElementById('explanation-box').style.display = 'none';
+    document.getElementById('next-btn-container').style.display = 'none';
+
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+
+    data.options.forEach((opt, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = opt;
+      btn.onclick = () => selectOption(index);
+      container.appendChild(btn);
+    });
+  }
+
+  // 7. 选择选项与回答处理
+  function selectOption(index) {
+    if (answered) return;
+    answered = true;
+
+    const data = quizData[currentQuestion];
+    const buttons = document.querySelectorAll('.option-btn');
+
+    if (index === data.correct) {
+      buttons[index].classList.add('correct');
+      AudioFX.playCorrect();
+      score += 10;
+      document.getElementById('current-score').textContent = score;
+    } else {
+      buttons[index].classList.add('wrong');
+      buttons[data.correct].classList.add('correct');
+      AudioFX.playWrong();
+      
+      // 显示错题解答解析
+      document.getElementById('explanation-text').textContent = data.exp;
+      document.getElementById('explanation-box').style.display = 'block';
+    }
+
+    buttons.forEach(btn => btn.style.pointerEvents = 'none');
+    document.getElementById('next-btn-container').style.display = 'block';
+  }
+
+  // 点击“下一题”
+  document.getElementById('next-btn').addEventListener('click', () => {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+      loadQuestion();
+    } else {
+      finishQuiz();
+    }
+  });
+
+  // 8. 答题结算与提交到 Firebase
+  async function finishQuiz() {
+    const endTime = new Date();
+    const timeTaken = Math.round((endTime - startTime) / 1000);
+
+    document.getElementById('final-score').textContent = score;
+    let comment = "🌟 太棒了！你对汉都亚的历史非常了解！";
+    if (score < 60) comment = "💪 还需要继续加油哦，多复习课本知识！";
+    else if (score < 90) comment = "👍 表现不错！差一点就拿满分了！";
+    document.getElementById('result-comment').textContent = comment;
+
+    switchScreen('result');
+
+    // 保存到 Firebase Firestore
+    try {
+      await addDoc(collection(db, "quiz_results"), {
+        name: studentInfo.name,
+        email: studentInfo.email,
+        score: score,
+        timeTaken: timeTaken,
+        timestamp: serverTimestamp()
+      });
+    } catch (e) {
+      console.error("保存成绩失败: ", e);
+    }
+  }
+
+  // 9. 教师专区逻辑 (密码: 2020Hui%%)
+  const TEACHER_PASS = "2020Hui%%";
+
+  document.getElementById('teacher-zone-btn').addEventListener('click', () => {
+    document.getElementById('admin-pass-input').value = '';
+    document.getElementById('admin-pass-error').style.display = 'none';
+    switchScreen('adminLogin');
+  });
+
+  document.getElementById('admin-cancel-btn').addEventListener('click', () => {
+    switchScreen('login');
+  });
+
+  document.getElementById('admin-login-btn').addEventListener('click', () => {
+    const inputPass = document.getElementById('admin-pass-input').value;
+    const err = document.getElementById('admin-pass-error');
+    
+    // 密码校验 (隐蔽展示，文本框格式为 password)
+    if (inputPass === TEACHER_PASS) {
+      err.style.display = 'none';
+      switchScreen('adminDashboard');
+      loadAdminData();
+    } else {
+      err.style.display = 'block';
+    }
+  });
+
+  document.getElementById('admin-logout-btn').addEventListener('click', () => {
+    switchScreen('login');
+  });
+
+  // 10. 加载教师后台完整记录
+  function loadAdminData() {
+    const q = query(collection(db, "quiz_results"));
+    onSnapshot(q, (snapshot) => {
+      const tbody = document.getElementById('admin-data-body');
+      const records = [];
+      snapshot.forEach((doc) => {
+        records.push(doc.data());
+      });
+
+      // 在前端按照提交时间降序排列
+      records.sort((a, b) => {
+        const timeA = a.timestamp ? a.timestamp.toDate().getTime() : 0;
+        const timeB = b.timestamp ? b.timestamp.toDate().getTime() : 0;
+        return timeB - timeA;
+      });
+
+      let html = "";
+      records.forEach((data) => {
+        let dateStr = "近期";
+        if (data.timestamp) {
+          dateStr = new Date(data.timestamp.toDate()).toLocaleString('zh-CN');
+        }
+        html += `
+          <tr>
+            <td><b>${escapeHtml(data.name)}</b></td>
+            <td>${escapeHtml(data.email)}</td>
+            <td><span style="color:var(--primary); font-weight:bold;">${data.score} 分</span></td>
+            <td>${data.timeTaken || 0} 秒</td>
+            <td><small style="color:#6b7280;">${dateStr}</small></td>
+          </tr>
+        `;
+      });
+      if (html === "") html = "<tr><td colspan='5' style='text-align: center; color:#9ca3af; padding: 20px;'>暂无学生答题记录</td></tr>";
+      tbody.innerHTML = html;
+    });
+  }
+
+  // 初始化排行榜监听
+  setupRealtimeLeaderboard();
+</script>
+</body>
+</html>
